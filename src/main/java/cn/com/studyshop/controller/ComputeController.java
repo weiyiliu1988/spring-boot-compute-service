@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.com.studyshop.service.EmailService;
+
 @RestController
 public class ComputeController {
 
@@ -18,6 +20,9 @@ public class ComputeController {
 
 	@Autowired
 	private DiscoveryClient client;
+
+	@Autowired
+	private EmailService emailService;
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	public Integer add(@RequestParam Integer a, @RequestParam Integer b) {
@@ -39,5 +44,12 @@ public class ComputeController {
 		Integer r = a + b;
 		logger.info("/add  result:{}", r);
 		return r;
+	}
+
+	//http://localhost:8061/send/email?accessToken
+	@RequestMapping(path = "/send/email")
+	public String sendEmail() {
+		logger.debug("/send/email");
+		return emailService.sendEmail();
 	}
 }
